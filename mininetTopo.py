@@ -1,6 +1,6 @@
 '''
-Please add your name:
-Please add your matric number: 
+Please add your name: Sritam Patnaik
+Please add your matric number: A0115530W
 '''
 
 import os
@@ -16,11 +16,45 @@ from mininet.node import RemoteController
 net = None
 
 class TreeTopo(Topo):
-			
 	def __init__(self):
 		# Initialize topology
-		Topo.__init__(self)        
-	
+		Topo.__init__(self)
+		file = open('topology.in')
+		firstLine = file.readline().split(' ')
+
+		numOfHosts = int(firstLine[0])
+		numOfSwitches = int(firstLine[1])
+		numOfLinks = int(firstLine[2])
+
+		hosts = []
+		for i in xrange(numOfHosts):
+			host = self.addHost('h%d' % (i+1))
+			hosts.append(host)
+
+		print hosts
+
+		switches = []
+		for i in xrange(numOfSwitches):
+			sconfig = {'dpid': "%016x" % (i+1)}
+			switch = self.addSwitch('s%d' % (i+1), **sconfig)
+			switches.append(switch)
+
+		print switches
+
+		self.linkConfigs = []
+
+		for i in xrange(numOfLinks):
+			link = file.readline().strip().split(',')
+			print link
+			self.linkConfigs.append(link)
+			firstNode = link[0]
+			secondNode = link[1]
+			self.addLink(firstNode, secondNode)
+
+		print self.links(True, False, True)
+
+
+
 	# You can write other functions as you need.
 
 	# Add hosts
