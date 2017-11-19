@@ -84,11 +84,13 @@ class Controller(EventMixin):
         if dpid not in self.macmap: self.macmap[dpid] = {}
 
         forward()
+        return
 
 
     def _handle_ConnectionUp(self, event):
         dpid = dpid_to_str(event.dpid)
         log.debug("Switch %s has come up.", dpid)
+
 
         # Send the firewall policies to the switch
         def sendFirewallPolicy(connection, policy):
@@ -97,6 +99,7 @@ class Controller(EventMixin):
 
         #for i in [FIREWALL POLICIES]:
         #    sendFirewallPolicy(event.connection, i)
+        return
 
 
 def launch():
