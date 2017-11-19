@@ -27,7 +27,6 @@ class Controller(EventMixin):
         self.macmap = {}
 
     # You can write other functions as you need.
-
     def _handle_PacketIn (self, event):
         packet = event.parsed
         dpid = event.dpid
